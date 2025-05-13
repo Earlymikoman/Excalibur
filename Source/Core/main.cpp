@@ -16,7 +16,10 @@
  *			 /
  */
 
+#include "framework.h"
+
 #include "Engine.h"
+#include "WindowsPlatform.h"
 
 #include "ECS.h"
 
@@ -24,12 +27,18 @@
 
 class Transform;
 
-int main()
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
+	WindowsPlatform::InitializeInstance(hInstance);
+
 	Engine* mainEngine = Engine::GetSingleton();
+	mainEngine->SetPlatform(WindowsPlatform::GetInstance());
 
 	//Add things to Engine here.
-	mainEngine->Add(new TrueECS<Transform>());
+	mainEngine->Add((System*)new TrueECS<Transform>());
 
 	int running = mainEngine->Init();
 

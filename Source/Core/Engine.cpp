@@ -47,7 +47,7 @@ void Engine::Exit()
 
 }
 
-void Engine::Add(ECS* ecs)
+void Engine::Add(System* ecs)
 {
 	ecs;
 }

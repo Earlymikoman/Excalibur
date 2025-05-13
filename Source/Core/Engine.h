@@ -22,8 +22,9 @@
 
 using namespace std;
 
+class Platform;
 class Object;
-class ECS;
+class System;
 
 class Engine
 {
@@ -40,17 +41,21 @@ public:
 
 	void Exit();
 
-	void Add(ECS* ecs);
+	void Add(System* ecs);
 
 	static Engine* GetSingleton();
+
+	void SetPlatform(Platform* Platform) { platform = Platform; }
 
 private:
 	Engine();
 
 	static Engine* instance;
 
+	Platform* platform;
+
 	Object* source;
 
-	vector<ECS*> componentSystems;
+	vector<System*> systems;
 
 };
