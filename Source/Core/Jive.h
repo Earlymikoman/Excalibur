@@ -21,6 +21,7 @@
 #define TESTSIZE 10
 
 #include <vector>
+#include <cassert>
 
 using std::vector;
 
@@ -116,14 +117,18 @@ public:
 	{
 		recipe[Step].Extend(Direction);
 
+		//assert(Step >= recipe.size() && "Attempted to extend Jive above recipe limit!");
 		if (recipe[Step].GetEnd() == recipe[Step + 1].GetStart())
 		{
 			ConcatenateSteps(Step);
+			return;
 		}
 
+		assert(Step <= 0 && "Attempted to extend Jive below 0!");
 		if (recipe[Step - 1].GetEnd() == recipe[Step].GetStart())
 		{
 			ConcatenateSteps(Step - 1);
+			return;
 		}
 	}
 
