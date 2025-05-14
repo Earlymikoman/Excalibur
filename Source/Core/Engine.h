@@ -20,11 +20,12 @@
 
 #include <vector>
 
-using namespace std;
+//using namespace std;
 
 class Platform;
 class Object;
 class System;
+class Message;
 
 class Engine
 {
@@ -41,9 +42,13 @@ public:
 
 	void Exit();
 
+	void HandleMessage(Message& message);
+
 	void Add(System* ecs);
 
 	static Engine* GetSingleton();
+
+	Object* GetSourceObject() { return source; }
 
 	void SetPlatform(Platform* Platform) { platform = Platform; }
 
@@ -56,6 +61,6 @@ private:
 
 	Object* source;
 
-	vector<System*> systems;
+	std::vector<System*> systems;
 
 };

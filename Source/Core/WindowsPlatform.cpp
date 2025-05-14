@@ -20,8 +20,11 @@
 
 #include "WindowsPlatform.h"
 
+#include <iostream>
+
 #define MAX_LOADSTRING 100
 
+WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
 static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_ WPARAM wParam, _In_ LPARAM lParam);
@@ -71,8 +74,38 @@ void WindowsPlatform::InitializeInstance(HINSTANCE hInstance)
     // Game window and taskbar icon.
     platform.mWindowIcon = IDI_EXCALIBURWINDOWS;
 
+    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_EXCALIBURWINDOWS, szWindowClass, MAX_LOADSTRING);
+    WindowsPlatform::GetInstance()->RegisterWindowsClass();
     InitInstance(hInstance, platform.mShow);
+
+    WindowsPlatform::GetInstance()->GetInputSystem()->Init();
+}
+
+void WindowsPlatform::Update(double& dt)
+{
+    inputSystem.SendMessages();
+}
+
+ATOM WindowsPlatform::RegisterWindowsClass()
+{
+    WNDCLASSEXW wcex;
+
+    wcex.cbSize = sizeof(WNDCLASSEX);
+
+    wcex.style = mClassStyle;
+    wcex.lpfnWndProc = pWindowsCallback;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = mAppInstance;
+    wcex.hIcon = LoadIcon(mAppInstance, MAKEINTRESOURCE(mWindowIcon));
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_EXCALIBURWINDOWS);
+    wcex.lpszClassName = szWindowClass;
+    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
+    return RegisterClassExW(&wcex);
 }
 
 //
@@ -89,7 +122,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     HINSTANCE hInst = hInstance; // Store instance handle in our global variable
 
-    HWND hWnd = CreateWindowW(szWindowClass, (WCHAR*)WindowsPlatform::GetInstance()->GetWindowTitle(), WS_OVERLAPPEDWINDOW,
+    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
@@ -130,6 +163,23 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
 
     switch (message)
     {
+    case WM_KEYDOWN:
+    {
+        if (!(((lParam >> 30) & 0x1) != 0))
+        {
+            WindowsPlatform::GetInstance()->GetInputSystem()->KeyDown((char)wParam);
+        }
+
+        break;
+    }
+
+    case WM_KEYUP:
+    {
+        WindowsPlatform::GetInstance()->GetInputSystem()->KeyReleased((char)wParam);
+
+        break;
+    }
+
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);

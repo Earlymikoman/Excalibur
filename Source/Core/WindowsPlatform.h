@@ -19,21 +19,32 @@
 #pragma once
 
 #include "Platform.h"
+#include "InputSystem.h"
 
 class WindowsPlatform : public Platform
 {
+private:
+
+    WindowsPlatform() {};
+
 public:
 
     static WindowsPlatform* GetInstance();
 
     static void InitializeInstance(HINSTANCE hInstance);
 
+    void Update(double& dt);
+
+    ATOM RegisterWindowsClass();
+
+    InputSystem<char>* GetInputSystem() { return &inputSystem; }
+
     HINSTANCE GetAppInstance() { return mAppInstance; }
     const char* GetWindowTitle() { return mWindowTitle; }
 
 private:
 
-    static WindowsPlatform* instance;
+    InputSystem<char> inputSystem;
 
     // This should be set to the first parameter from WinMain.
     // It is used to identify the application instance when creating and closing the window.

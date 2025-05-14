@@ -1,34 +1,19 @@
-/*****************************************************************//**
-* @file   Platform.cpp
-* @brief  Platform is the core system that makes the game run, setting up the program and exiting when told to.
-*
-* Project: LAST_CONTACT
-* Course: GAM150S25
-*
-* @author Doug Schilling (dschilling), Elliot Orr (elliot.orr@digipen.edu), Xander Boosinger (xander.boosinger@digipen.edu),
-*		  Aidan Hartman (aidan.hartman@digipen.edu), Ori Balashov (ori.balashov@digipen.edu),
-*		  Justin Ptacek (justin.ptacek@digipen.edu)
-* @date   03 2025
-*
-* Copyright © 2025 DigiPen (USA) Corporation.
-*//********************************************************************/
-/*  __  __  ___  ____ ____
-* |  \/  |/ _ \|  _ \___ \
-* | |\/| | | | | | | |__) |
-* | |  | | |_| | |_| / __/
-* |_|  |_|\___/|____/_____|
-*/
+//------------------------------------------------------------------------------
+//
+// File Name:	Trace.h
+// Author(s):	Doug Schilling (dschilling)
+// Project:		Project 0
+// Course:		CS230S25
+//
+// Copyright © 2025 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
 
 #pragma once
 
 //------------------------------------------------------------------------------
 // Include Files:
 //------------------------------------------------------------------------------
-
-#include "System.h"
-
-#include "framework.h"
-#include "Resource.h"
 
 //------------------------------------------------------------------------------
 
@@ -37,7 +22,7 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-// Public Constants And Enums:
+// Public Constants:
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -48,24 +33,6 @@
 // Public Structures:
 //------------------------------------------------------------------------------
 
-class Platform
-{
-protected:
-
-    Platform() {}
-
-    Platform(Platform const& rhs) = delete;
-
-    Platform& operator=(Platform const& rhs) = delete;
-
-public:
-
-    virtual void Update(double& dt) = 0;
-
-private:
-
-};
-
 //------------------------------------------------------------------------------
 // Public Variables:
 //------------------------------------------------------------------------------
@@ -74,5 +41,19 @@ private:
 // Public Functions:
 //------------------------------------------------------------------------------
 
-/*----------------------------------------------------------------------------*/
+// Initialize the Tracing/Logging module.
+// - Open "trace.log" for writing in text mode.
+// - Perform error handling in the event that the file failed to open.
+void TraceInit();
 
+// Output a message to the Tracing/Logging file.
+// - Print the given message to the file if it was opened successfully.
+// - Every message must be printed on its own line.
+// - There must be no blank lines between messages.
+void TraceMessage(const char * formatString, ...);
+
+// Shutdown the Tracing/Logging module.
+// - Close the file if-and-only-if the file was opened successfully
+void TraceShutdown();
+
+/*----------------------------------------------------------------------------*/

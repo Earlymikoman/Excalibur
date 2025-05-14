@@ -20,15 +20,19 @@
 
 class Message;
 
-enum SystemEnum
-{
-
-
-	cSystemCount
-};
-
 class System
 {
+
+public:
+
+	enum SystemEnum
+	{
+		UNKNOWN,
+
+		cSystemCount
+	};
+
+private:
 
 	System(SystemEnum type) : systemType(type){}
 
@@ -48,7 +52,7 @@ public:
 
 	virtual void Exit(){}
 
-	virtual void HandleMessage(Message& message){}
+	virtual void HandleMessage(Message& message) {}
 
 
 private:

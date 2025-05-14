@@ -30,9 +30,9 @@ using namespace std;
 class Object
 {
 public:
-	vector<Object*> const& GetChildren() const;
+	std::vector<Object*> const& GetChildren() const;
 	
-	vector<ComponentID*> const& GetComponents() const;
+	std::vector<ComponentID*> const& GetComponents() const;
 
 	template<typename T>
 	T* GetComponent(TypeEnum Type)
@@ -41,6 +41,6 @@ public:
 	}
 
 private:
-	vector<Object*> children;
-	vector<ComponentID*> components;
+	std::vector<Object*> children;
+	std::vector<ComponentID*> components;
 };

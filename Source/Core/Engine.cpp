@@ -18,6 +18,13 @@
 
 #include "Engine.h"
 
+#include "Message.h"
+#include "Platform.h"
+
+#include <iostream>
+
+using namespace std;
+
 Engine* Engine::instance = nullptr;
 
 Engine::Engine()
@@ -33,6 +40,8 @@ int Engine::Init()
 
 int Engine::Update(double& dt)
 {
+	this->platform->Update(dt);
+
 	dt;
 	return 1;
 }
@@ -45,6 +54,11 @@ void Engine::Render()
 void Engine::Exit()
 {
 
+}
+
+void Engine::HandleMessage(Message& message)
+{
+	std::cout << message.GetTag() << std::endl;
 }
 
 void Engine::Add(System* ecs)
