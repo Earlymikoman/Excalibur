@@ -38,6 +38,10 @@ public:
 
     static void InitializeInstance(HINSTANCE hInstance);
 
+	Mesh* LoadMesh(string const& Name, vector<VertexData> const& Vertices);
+
+	Texture* LoadTexture(string const& Name);
+
 	BOOL InitWindow(HINSTANCE hInstance, int nCmdShow);
 
     void Update(double& dt);

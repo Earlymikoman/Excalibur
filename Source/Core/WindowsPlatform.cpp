@@ -21,6 +21,7 @@
 #include "Mesh.h"
 #include "../DirectX/DirectXGraphics.h"
 #include "Engine.h"
+#include "ResourceLibrary.h"
 
 #include <iostream>
 
@@ -239,4 +240,14 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
+}
+
+Mesh* WindowsPlatform::LoadMesh(string const& Name, vector<VertexData> const& Vertices)
+{
+	return new Mesh(Name, Vertices);
+}
+
+Texture* WindowsPlatform::LoadTexture(string const& Name)
+{
+	return DirectX::Load
 }

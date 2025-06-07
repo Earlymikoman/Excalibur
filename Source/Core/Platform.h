@@ -30,6 +30,15 @@
 #include "framework.h"
 #include "Resource.h"
 
+#include <string>
+
+using std::string;
+
+class Mesh;
+class Texture;
+
+struct VertexData;
+
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -61,6 +70,10 @@ protected:
 public:
 
     virtual void Update(double& dt) = 0;
+
+	virtual Mesh* LoadMesh(string const& Name, vector<VertexData> const& Vertices) = 0;
+
+	virtual Texture* LoadTexture(string const& Name) = 0;
 
 private:
 
