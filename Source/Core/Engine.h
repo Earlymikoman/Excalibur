@@ -18,21 +18,28 @@
 
 #pragma once
 
+#include "Component/Transform.h"
+#include "ECS.h"
+#include "Object.h"
+
 #include <vector>
 
-//using namespace std;
+using std::vector;
 
 class Platform;
-class Object;
 class System;
+class Object;
 class Message;
 
 class Engine
 {
 public:
+
 	Engine(Engine const& rhs) = delete;
 
 	Engine& operator=(Engine const& rhs) = delete;
+
+	~Engine();
 
 	int Init();
 
@@ -42,9 +49,9 @@ public:
 
 	void Exit();
 
-	void HandleMessage(Message& message);
+	void HandleMessage(Message* message);
 
-	void Add(System* ecs);
+	void Add(System* system);
 
 	static Engine* GetSingleton();
 
@@ -53,14 +60,13 @@ public:
 	void SetPlatform(Platform* Platform) { platform = Platform; }
 
 private:
-	Engine();
 
-	static Engine* instance;
+	Engine();
 
 	Platform* platform;
 
 	Object* source;
 
-	std::vector<System*> systems;
+	vector<System*> systems;
 
 };

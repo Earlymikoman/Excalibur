@@ -16,9 +16,11 @@
  *			 /
  */
 
-#include "Engine.h"
-
 #include "WindowsPlatform.h"
+
+#include "Mesh.h"
+#include "../DirectX/DirectXGraphics.h"
+#include "Engine.h"
 
 #include <iostream>
 
@@ -28,7 +30,7 @@ WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
 static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_ WPARAM wParam, _In_ LPARAM lParam);
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
+//BOOL InitWindow(HINSTANCE hInstance, int nCmdShow);
 
 WindowsPlatform* WindowsPlatform::GetInstance()
 {
@@ -77,7 +79,7 @@ void WindowsPlatform::InitializeInstance(HINSTANCE hInstance)
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_EXCALIBURWINDOWS, szWindowClass, MAX_LOADSTRING);
     WindowsPlatform::GetInstance()->RegisterWindowsClass();
-    InitInstance(hInstance, platform.mShow);
+    WindowsPlatform::GetInstance()->InitWindow(hInstance, platform.mShow);
 
     WindowsPlatform::GetInstance()->GetInputSystem()->Init();
 }
@@ -118,7 +120,7 @@ ATOM WindowsPlatform::RegisterWindowsClass()
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL WindowsPlatform::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
     HINSTANCE hInst = hInstance; // Store instance handle in our global variable
 
@@ -130,8 +132,33 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
         return FALSE;
     }
 
+	graphicsEngine = new DirectXData(hWnd);
+
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
+
+	graphicsEngine->SetPosition(Vector<2>(10, 10));
+	graphicsEngine->SetScale(Vector<2>(100, 100));
+
+	graphicsEngine->LoadTexture(L"Assets/Milk.png");
+
+	graphicsEngine->Draw
+	(
+		*new Mesh
+		(
+			"TestMesh"
+			, vector<VertexData>
+			{
+				VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
+			,	VertexData(-0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 0.0f)
+			,	VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
+			,	VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
+			,	VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
+			,	VertexData(0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f)
+			}
+		)
+		, DrawMode::TEXTURE
+	);
 
     return TRUE;
 }

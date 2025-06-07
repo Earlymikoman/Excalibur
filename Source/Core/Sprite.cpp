@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   Jive.cpp
+ * @file   Sprite.cpp
  * @brief  .
  * 
  * Project: Excalibur
@@ -16,11 +16,4 @@
  *			 /
  */
 
-#include "Jive.h"
-
-JiveIndex::JiveIndex(unsigned int const& RecipeIndex, unsigned int const& MixIndex)
-	: recipeIndex(RecipeIndex)
-	, mixIndex(MixIndex)
-{
-
-}
+#include "Sprite.h"

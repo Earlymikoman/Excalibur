@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   Jive.cpp
+ * @file   Texture.cpp
  * @brief  .
  * 
  * Project: Excalibur
@@ -16,11 +16,11 @@
  *			 /
  */
 
-#include "Jive.h"
+#include "Texture.h"
 
-JiveIndex::JiveIndex(unsigned int const& RecipeIndex, unsigned int const& MixIndex)
-	: recipeIndex(RecipeIndex)
-	, mixIndex(MixIndex)
+Texture::Texture(wstring const& FileName, ID3D11Resource* const& Resource, ID3D11ShaderResourceView* const& ResourceView)
+	: fileName(FileName)
+	, resource(Resource)
+	, resourceView(ResourceView)
 {
-
 }

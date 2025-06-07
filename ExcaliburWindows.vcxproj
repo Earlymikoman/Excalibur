@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -38,12 +39,14 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -51,6 +54,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -78,7 +82,9 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,7 +101,9 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,7 +120,9 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -129,7 +139,9 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,12 +151,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Mesh.h" />
+    <ClInclude Include="Source\Core\ResourceLibrary.h" />
+    <ClInclude Include="Source\Core\Sprite.h" />
+    <ClInclude Include="Source\Core\Texture.h" />
+    <ClInclude Include="Source\DirectX\DirectXGraphics.h" />
     <ClInclude Include="ExcaliburWindows.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Source\Core\Component\Component.h" />
     <ClInclude Include="Source\Core\Component\ComponentID.h" />
-    <ClInclude Include="Source\Core\ECS.h" />
+    <ClInclude Include="Source\Core\Component\Transform.h" />
     <ClInclude Include="Source\Core\Engine.h" />
     <ClInclude Include="Source\Core\Enums.h" />
     <ClInclude Include="Source\Core\framework.h" />
@@ -153,30 +170,41 @@
     <ClInclude Include="Source\Core\Message.h" />
     <ClInclude Include="Source\Core\MultiField.h" />
     <ClInclude Include="Source\Core\Object.h" />
+    <ClInclude Include="Source\Core\Physics.h" />
     <ClInclude Include="Source\Core\Platform.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\Stream.h" />
     <ClInclude Include="Source\Core\System.h" />
     <ClInclude Include="Source\Core\targetver.h" />
     <ClInclude Include="Source\Core\Trace.h" />
+    <ClInclude Include="Source\Core\Vector.h" />
     <ClInclude Include="Source\Core\WindowsPlatform.h" />
+    <ClInclude Include="Source\DirectX\PShader.h" />
+    <ClInclude Include="Source\DirectX\PTexShader.h" />
+    <ClInclude Include="Source\DirectX\VShader.h" />
+    <ClInclude Include="Source\DirectX\WICTextureLoader11.h" />
     <ClInclude Include="Source\Stub.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Component\Component.cpp" />
     <ClCompile Include="Source\Core\Component\ComponentID.cpp" />
+    <ClCompile Include="Source\Core\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\ECS.cpp" />
     <ClCompile Include="Source\Core\Engine.cpp" />
     <ClCompile Include="Source\Core\Enums.cpp" />
     <ClCompile Include="Source\Core\InputSystem.cpp" />
     <ClCompile Include="Source\Core\Jive.cpp" />
     <ClCompile Include="Source\Core\main.cpp" />
+    <ClCompile Include="Source\Core\Mesh.cpp" />
     <ClCompile Include="Source\Core\Message.cpp" />
     <ClCompile Include="Source\Core\MultiField.cpp" />
     <ClCompile Include="Source\Core\Object.cpp" />
+    <ClCompile Include="Source\Core\Physics.cpp" />
     <ClCompile Include="Source\Core\Platform.cpp" />
+    <ClCompile Include="Source\Core\ResourceLibrary.cpp" />
     <ClCompile Include="Source\Core\SampleWindowsApp.cpp" />
+    <ClCompile Include="Source\Core\Sprite.cpp" />
     <ClCompile Include="Source\Core\Stream.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
@@ -184,13 +212,17 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="Source\Core\System.cpp" />
+    <ClCompile Include="Source\Core\Texture.cpp" />
     <ClCompile Include="Source\Core\Trace.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="Source\Core\Vector.cpp" />
     <ClCompile Include="Source\Core\WindowsPlatform.cpp" />
+    <ClCompile Include="Source\DirectX\DirectXGraphics.cpp" />
+    <ClCompile Include="Source\DirectX\WICTextureLoader11.cpp" />
     <ClCompile Include="Source\Stub.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +232,20 @@
     <Image Include="ExcaliburWindows.ico" />
     <Image Include="small.ico" />
     <Image Include="Source\Core\small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\DirectX\PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\DirectX\PixelShaderTex.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\DirectX\VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

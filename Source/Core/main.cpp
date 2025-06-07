@@ -24,11 +24,18 @@
 
 #include "ECS.h"
 #include "Message.h"
+#include "Jive.h"
+#include "Physics.h"
 
 #include <chrono>
 #include <omp.h>
 #include <fstream>
 #include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+using std::string;
 
 class Transform;
 
@@ -44,7 +51,7 @@ void AttachConsoleWindow()//Courtesy of chatgpt.
 	std::cin.clear();
 }
 
-void MessagesManagement(HINSTANCE hInstance);
+void MessagesManagement(HINSTANCE hInstance, int* runningFlag);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -57,8 +64,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Engine* mainEngine = Engine::GetSingleton();
 	mainEngine->SetPlatform(WindowsPlatform::GetInstance());
 
-	//Add things to Engine here.
-	mainEngine->Add((System*)new TrueECS<Transform>());
+	//Add Systems to the Engine here.
+	mainEngine->Add(ECS<Physics>::GetInstance());
+	//mainEngine->GetSourceObject()->AddComponent(Physics());
 
 	int running = mainEngine->Init();
 
@@ -68,7 +76,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		#pragma omp section
 		{
-			MessagesManagement(hInstance);
+			MessagesManagement(hInstance, &running);
 		}
 
 		#pragma omp section
@@ -82,6 +90,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				running = mainEngine->Update(dt);
 
 				mainEngine->Render();
+
+				//running = 0;
 			}
 		}
 	}
@@ -91,13 +101,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	return 0;
 }
 
-void MessagesManagement(HINSTANCE hInstance)
+void MessagesManagement(HINSTANCE hInstance, int* runningFlag)
 {
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_EXCALIBURWINDOWS));
 
 	MSG msg;
 
-	while (GetMessage(&msg, nullptr, 0, 0))
+	while (*runningFlag && GetMessage(&msg, nullptr, 0, 0))
 	{
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 		{

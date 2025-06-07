@@ -20,18 +20,25 @@
 
 #include "Platform.h"
 #include "InputSystem.h"
+#include "../DirectX/DirectXGraphics.h"
 
 class WindowsPlatform : public Platform
 {
 private:
 
-    WindowsPlatform() {};
+    WindowsPlatform() = default;
+
+	WindowsPlatform(Platform const& rhs) = delete;
+
+	WindowsPlatform& operator=(Platform const& rhs) = delete;
 
 public:
 
     static WindowsPlatform* GetInstance();
 
     static void InitializeInstance(HINSTANCE hInstance);
+
+	BOOL InitWindow(HINSTANCE hInstance, int nCmdShow);
 
     void Update(double& dt);
 
@@ -43,6 +50,8 @@ public:
     const char* GetWindowTitle() { return mWindowTitle; }
 
 private:
+
+	DirectXData* graphicsEngine;
 
     InputSystem<char> inputSystem;
 

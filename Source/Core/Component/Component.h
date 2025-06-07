@@ -18,27 +18,40 @@
 
 #pragma once
 
-class ComponentID;
+#include "../Enums.h"
 
-enum TypeEnum
-{
-	cNONE = 0,//Should not be used.
-	
-	cTransform,
-	cSprite,
-	cPhysics,
-	cAnimation,
-	cCollider,
-
-	cALL//WTF does that even mean? It means don't use this.
-};
+class Object;
 
 class Component
 {
 public:
 
+	Component(Object* const& Parent = nullptr) : parent(Parent) {};
+
+	Object* GetParent() { return parent; }
+
+	void SetParent(Object* Parent) { parent = Parent; }
 
 private:
-	ComponentID* ID;
+
+	Object* parent;
+
+};
+
+template <TypeEnum Type>
+class ComponentWithType : public Component
+{
+public:
+
+	ComponentWithType() = default;
+
+	static TypeEnum GetType()
+	{
+		return Type;
+	}
+
+private:
+
+
 
 };

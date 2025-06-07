@@ -4,7 +4,7 @@
  * 
  * Project: Excalibur
  * 
- * @author Xander Boosinger (xboosinger@gmail.com)
+ * @author Xander Boosinger (xboosinger@gmail.com), with help from ChatGPT.
  * @date   April 2025
  * 
  *********************************************************************
@@ -19,8 +19,10 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
-//using namespace std;
+using std::cout;
+using std::endl;
 
 #pragma region Named
 
@@ -56,17 +58,18 @@ NamedField(T) -> NamedField<T>;
 
 class NamedMultiFieldWrapper
 {
+
 public:
 
     virtual ~NamedMultiFieldWrapper()
     {
-        int a = 0;
-        ++a;
+		//cout << "Deleted " << this << endl;
     }
 
     virtual void* GetValue(std::string const& Name) = 0;
 
     virtual void* GetValue(int Index) = 0;
+
 };
 
 // variadic storage
@@ -77,23 +80,25 @@ class NamedMultiField;
 template<>
 class NamedMultiField<>
 {
+
 public:
 
     void* GetValue(std::string const& Name) { return nullptr; }
 
     void* GetValue(int Index) { return nullptr; }
+
 };
 
 // recursive case
 template<Named T, Named... Rest>
 class NamedMultiField<T, Rest...> : public NamedMultiFieldWrapper
 {
+
 public:
 
     ~NamedMultiField()
     {
-        int a = 0;
-        ++a;
+		cout << "Deleted " << this << endl;
     }
 
     NamedMultiField(const T& v, const Rest&... rs)
@@ -140,6 +145,7 @@ public:
 
     T value;
     NamedMultiField<Rest...> rest;
+
 };
 
 template<Named T, Named... Rest>

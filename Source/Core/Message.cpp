@@ -27,22 +27,16 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+//Message::Message(Message const& rhs)
+//	: tag(rhs.tag)
+//	, caller(rhs.caller)
+//	, resources(new )
+//{
+//}
+
 Message::~Message()
 {
-	static vector<NamedMultiFieldWrapper*> deleted;
+	//cout << "Deleted " << resources << endl;
 
-	for (int i = 0; i < deleted.size(); ++i)
-	{
-		if (resources == deleted[i])
-		{
-			int a = 0;
-			++a;
-		}
-	}
-
-	deleted.push_back(resources);
-
-	cout << "Deleted " << resources << endl;
-
-	//delete resources;
+	delete resources;
 }

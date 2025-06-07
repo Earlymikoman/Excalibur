@@ -32,10 +32,12 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <mutex>
 
 using std::vector;
+using std::mutex;
 
-//using namespace std;
+static int testRunning = 0;
 
 //------------------------------------------------------------------------------
 // Include Files:
@@ -89,7 +91,7 @@ public:
 	InputSystem(
 		std::vector<Input> const* Inputs = new std::vector<Input>(),
 		std::map<KeyType, Input const*> const* InputMappings = new std::map<KeyType, Input const*>(),
-		std::vector<Message> const* MessageQueue = new std::vector<Message>())
+		std::vector<Message*> const* MessageQueue = new std::vector<Message*>())
 		: inputs(*Inputs)
 		, inputMappings(*InputMappings)
 		, messageQueue()
@@ -119,34 +121,35 @@ public:
 
 	void QueueMessage(Message* message)
 	{
-		static vector<Message*> queued;
+		this->AccessingQueue.lock();
 
-		for (int i = 0; i < queued.size(); ++i)
-		{
-			if (message == queued[i])
-			{
-				int a = 0;
-				++a;
-			}
-		}
+		messageQueue.push_back(message);
 
-		queued.push_back(message);
-
-		messageQueue.push_back(*message);
+		this->AccessingQueue.unlock();
 	}
 
 	void SendMessages()
 	{
-		int size = (int)messageQueue.size();
+		this->AccessingQueue.lock();
+
+		auto queueSnapshot = messageQueue;
+
+		messageQueue.clear();
+
+		this->AccessingQueue.unlock();
+
+
+
+		int size = (int)queueSnapshot.size();
 
 		for (int i = 0; i < size; ++i)
 		{
-			Engine::GetSingleton()->HandleMessage(messageQueue[i]);
+			Engine::GetSingleton()->HandleMessage(queueSnapshot[i]);
 		}
 
-		for (int i = size - 1; i << size >= 0; --i)
+		for (int i = size - 1; i >= 0; --i)
 		{
-			messageQueue.erase(messageQueue.begin() + i);
+			delete queueSnapshot[i];
 		}
 	}
 
@@ -184,8 +187,6 @@ public:
 		Message* message = new Message(inputMappings[key]->GetType(), nullptr, new NamedMultiField(NamedField("InputState", (char)1)));
 
 		QueueMessage(message);
-
-		//Engine::GetSingleton()->HandleMessage(message);
 	}
 
 	void KeyReleased(KeyType key)
@@ -193,8 +194,6 @@ public:
 		Message* message = new Message(inputMappings[key]->GetType(), nullptr, new NamedMultiField(NamedField("InputState", (char)0)));
 
 		QueueMessage(message);
-
-		//Engine::GetSingleton()->HandleMessage(message);
 	}
 
 private:
@@ -202,7 +201,9 @@ private:
 	std::vector<Input> inputs;
 	std::map<KeyType, Input const*> inputMappings;
 
-	std::vector<Message> messageQueue;
+	std::vector<Message*> messageQueue;
+
+	mutex AccessingQueue;
 
 };
 

@@ -24,8 +24,6 @@
 
 #include <vector>
 
-//using namespace std;
-
 class Object;
 class NamedMultiFieldWrapper;
 
@@ -35,6 +33,10 @@ public:
 
 	Message(MessageTag Tag, Object* Caller = nullptr, NamedMultiFieldWrapper* Resources = nullptr) : tag(Tag), caller(Caller), resources(Resources) {}
 	Message(InputType Tag, Object* Caller = nullptr, NamedMultiFieldWrapper* Resources = nullptr) : tag(Tag), caller(Caller), resources(Resources) {}
+
+	//Message(Message const& rhs) = delete;
+
+	//void operator=(Message const&) = delete;
 
 	~Message();
 

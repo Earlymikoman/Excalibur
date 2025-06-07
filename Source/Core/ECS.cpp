@@ -17,3 +17,10 @@
  */
 
 #include "ECS.h"
+
+ComponentAccessInfo::ComponentAccessInfo(UpdateLayer const& Layer, JiveIndex const& Index)
+	: layer(Layer)
+	, index(Index)
+{
+
+}

@@ -23,14 +23,17 @@
 
 #include <iostream>
 
-using namespace std;
-
-Engine* Engine::instance = nullptr;
+using std::vector;
 
 Engine::Engine()
-	: source(nullptr)
+	: source(Object::CreateObject())
 {
 
+}
+
+Engine::~Engine()
+{
+	delete source;
 }
 
 int Engine::Init()
@@ -42,13 +45,20 @@ int Engine::Update(double& dt)
 {
 	this->platform->Update(dt);
 
-	dt;
+	for (int i = 0; i < systems.size(); ++i)
+	{
+		systems[i]->Update(dt);
+	}
+
 	return 1;
 }
 
 void Engine::Render()
 {
-
+	for (int i = 0; i < systems.size(); ++i)
+	{
+		systems[i]->Render();
+	}
 }
 
 void Engine::Exit()
@@ -56,22 +66,19 @@ void Engine::Exit()
 
 }
 
-void Engine::HandleMessage(Message& message)
+void Engine::HandleMessage(Message* message)
 {
-	std::cout << message.GetTag() << std::endl;
+	std::cout << message->GetTag() << std::endl;
 }
 
-void Engine::Add(System* ecs)
+void Engine::Add(System* system)
 {
-	ecs;
+	systems.push_back(system);
 }
 
 Engine* Engine::GetSingleton()
 {
-	if (!instance)
-	{
-		instance = new Engine();
-	}
+	static Engine instance = Engine();
 
-	return instance;
+	return &instance;
 }

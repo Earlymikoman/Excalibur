@@ -52,7 +52,7 @@ class Platform
 {
 protected:
 
-    Platform() {}
+	Platform() = default;
 
     Platform(Platform const& rhs) = delete;
 

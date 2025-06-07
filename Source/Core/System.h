@@ -22,27 +22,19 @@ class Message;
 
 class System
 {
+protected:
 
-public:
-
-	enum SystemEnum
-	{
-		UNKNOWN,
-
-		cSystemCount
-	};
+	System() = default;
 
 private:
-
-	System(SystemEnum type) : systemType(type){}
 
 	System(System const& rhs) = delete;
 
 	System& operator=(System const& rhs) = delete;
 
-public:
+	virtual void SingletonReminder() = 0;
 
-	virtual System* GetInstance() = 0;
+public:
 
 	virtual void Init(){}
 
@@ -52,11 +44,6 @@ public:
 
 	virtual void Exit(){}
 
-	virtual void HandleMessage(Message& message) {}
-
-
-private:
-
-	SystemEnum systemType;
+	virtual void HandleMessage(Message* message) {}
 
 };

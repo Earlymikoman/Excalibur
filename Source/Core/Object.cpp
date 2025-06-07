@@ -17,3 +17,34 @@
  */
 
 #include "Object.h"
+
+#include "ECS.h"
+
+ComponentData::ComponentData(Component* const& Component, ComponentAccessInfo const& AccessInfo)
+	: component(Component)
+	, accessInfo(AccessInfo)
+{
+
+}
+
+Object* Object::CreateObject()
+{
+	Object* newObject = new Object();
+
+	newObject->transform = newObject->AddComponent(Transform());
+
+	return newObject;
+}
+
+//Object::Object()
+//{
+//
+//}
+
+Object::Object(vector<Object*> Children, unordered_map<TypeEnum, ComponentData> Components)
+	: children(Children)
+	, components(Components)
+	, transform(nullptr)
+{
+
+}

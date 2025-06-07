@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   Jive.cpp
+ * @file   ResourceLibrary.cpp
  * @brief  .
  * 
  * Project: Excalibur
@@ -16,11 +16,14 @@
  *			 /
  */
 
-#include "Jive.h"
+#include "ResourceLibrary.h"
 
-JiveIndex::JiveIndex(unsigned int const& RecipeIndex, unsigned int const& MixIndex)
-	: recipeIndex(RecipeIndex)
-	, mixIndex(MixIndex)
+#include "Engine.h"
+
+//class Mesh;
+
+template<>
+static Mesh* ResourceLibrary<Mesh>::LoadResource(string const& Name)
 {
-
+	return nullptr;
 }

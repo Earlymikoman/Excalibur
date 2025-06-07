@@ -1,5 +1,5 @@
 /*********************************************************************
- * @file   Jive.cpp
+ * @file   Mesh.cpp
  * @brief  .
  * 
  * Project: Excalibur
@@ -16,11 +16,11 @@
  *			 /
  */
 
-#include "Jive.h"
+#include "Mesh.h"
 
-JiveIndex::JiveIndex(unsigned int const& RecipeIndex, unsigned int const& MixIndex)
-	: recipeIndex(RecipeIndex)
-	, mixIndex(MixIndex)
+Mesh::Mesh(string const& Name, vector<VertexData> const& Vertices, D3D_PRIMITIVE_TOPOLOGY const& MeshType)
+	: name(Name)
+	, vertexList(Vertices)
+	, meshType(MeshType)
 {
-
 }
