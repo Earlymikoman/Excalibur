@@ -242,12 +242,12 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
     return 0;
 }
 
-Mesh* WindowsPlatform::LoadMesh(string const& Name, vector<VertexData> const& Vertices)
-{
-	return new Mesh(Name, Vertices);
-}
-
-Texture* WindowsPlatform::LoadTexture(string const& Name)
-{
-	return DirectX::Load
-}
+//Mesh* WindowsPlatform::LoadMesh(string const& Name, vector<VertexData> const& Vertices)
+//{
+//	return ResourceLibrary<Mesh>::Add(new Mesh(Name, Vertices));
+//}
+//
+//Texture* WindowsPlatform::LoadTexture(string const& Name)
+//{
+//	return DirectX::Load
+//}
