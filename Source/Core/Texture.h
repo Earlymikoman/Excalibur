@@ -20,7 +20,7 @@
 
 #include <string>
 
-using std::wstring;
+using std::string;
 
 struct ID3D11Resource;
 struct ID3D11ShaderResourceView;
@@ -29,7 +29,7 @@ class Texture
 {
 public:
 
-	Texture(wstring const& FileName, ID3D11Resource* const& Resource, ID3D11ShaderResourceView* const& ResourceView);
+	Texture(string const& FileName, ID3D11Resource* const& Resource, ID3D11ShaderResourceView* const& ResourceView);
 
 	ID3D11Resource* const& GetResource() const { return resource; }
 
@@ -37,7 +37,7 @@ public:
 
 private:
 
-	wstring const fileName;
+	string const fileName;
 
 	ID3D11Resource* resource;
 

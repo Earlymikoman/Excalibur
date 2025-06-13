@@ -18,10 +18,13 @@
 
 #include "WindowsPlatform.h"
 
-#include "Mesh.h"
+//#include "Mesh.h"
 #include "../DirectX/DirectXGraphics.h"
 #include "Engine.h"
-#include "ResourceLibrary.h"
+//#include "ResourceLibrary.h"
+
+//#include "framework.h"
+//#include "Resource.h"
 
 #include <iostream>
 
@@ -32,6 +35,33 @@ WCHAR szWindowClass[MAX_LOADSTRING];
 
 static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_ WPARAM wParam, _In_ LPARAM lParam);
 //BOOL InitWindow(HINSTANCE hInstance, int nCmdShow);
+
+#pragma region WindowsPlatform Static Field Initialization
+
+InputSystem<char> WindowsPlatform::inputSystem = InputSystem<char>();
+
+HINSTANCE WindowsPlatform::mAppInstance = nullptr;
+
+int WindowsPlatform::mShow = 0;
+
+unsigned int WindowsPlatform::mWindowWidth = 0;
+unsigned int WindowsPlatform::mWindowHeight = 0;
+
+unsigned int WindowsPlatform::mMaxFrameRate = 0;
+
+unsigned int WindowsPlatform::mClassStyle = 0;
+
+unsigned int WindowsPlatform::mWindowStyle = 0;
+
+const char* WindowsPlatform::mWindowTitle = nullptr;
+
+BOOL WindowsPlatform::mCreateConsole = 0;
+
+int WindowsPlatform::mWindowIcon = 0;
+
+WNDPROC WindowsPlatform::pWindowsCallback = 0;
+
+#pragma endregion
 
 WindowsPlatform* WindowsPlatform::GetInstance()
 {
@@ -87,6 +117,8 @@ void WindowsPlatform::InitializeInstance(HINSTANCE hInstance)
 
 void WindowsPlatform::Update(double& dt)
 {
+	dt;
+
     inputSystem.SendMessages();
 }
 
@@ -123,7 +155,7 @@ ATOM WindowsPlatform::RegisterWindowsClass()
 //
 BOOL WindowsPlatform::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
-    HINSTANCE hInst = hInstance; // Store instance handle in our global variable
+    //HINSTANCE hInst = hInstance; // Store instance handle in our global variable
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
@@ -133,33 +165,12 @@ BOOL WindowsPlatform::InitWindow(HINSTANCE hInstance, int nCmdShow)
         return FALSE;
     }
 
-	graphicsEngine = new DirectXData(hWnd);
+	//graphicsEngine = new DirectXData(hWnd);
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
-	graphicsEngine->SetPosition(Vector<2>(10, 10));
-	graphicsEngine->SetScale(Vector<2>(100, 100));
-
-	graphicsEngine->LoadTexture(L"Assets/Milk.png");
-
-	graphicsEngine->Draw
-	(
-		*new Mesh
-		(
-			"TestMesh"
-			, vector<VertexData>
-			{
-				VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-			,	VertexData(-0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 0.0f)
-			,	VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-			,	VertexData(-0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 0.0f, 1.0f)
-			,	VertexData(0.5f, 0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 0.0f)
-			,	VertexData(0.5f, -0.5f, 0.5f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f)
-			}
-		)
-		, DrawMode::TEXTURE
-	);
+	Engine::SetWindow(hWnd);
 
     return TRUE;
 }
@@ -228,7 +239,7 @@ static LRESULT CALLBACK PlatformCallback(_In_ HWND hWnd, _In_ UINT message, _In_
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
+        /*HDC hdc = */BeginPaint(hWnd, &ps);
         // TODO: Add any drawing code that uses hdc here...
         EndPaint(hWnd, &ps);
     }

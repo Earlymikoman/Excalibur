@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Core/Enums.h"
+
 // D3D11 header
 #include <d3d11.h>
 // DirectX math, used for creating view matrices and matrix math operations
@@ -30,8 +32,6 @@ class Texture;
 
 template<unsigned int Dimensions>
 class Vector;
-
-enum DrawMode;
 
 // Data used for each vertex in a mesh
 // This must match the "vs_in" struct in the vertex shader
@@ -73,84 +73,85 @@ struct cbPerObject
 //template <typename Platform>
 class DirectXData
 {
+private:
+
+	DirectXData(/*HWND windowHandle*/) = default;
+
 public:
 
-	DirectXData(HWND WindowHandle)
-		: WindowHandle(WindowHandle)
-		, ViewMatrix(DirectX::XMMatrixIdentity())
-		, ProjectionMatrix(DirectX::XMMatrixIdentity())
-		, CameraPosition{ 0.0f, 0.0f, -10.f }
-	{
-		InitializeGraphics();
-	}
+	DirectXData(DirectXData const& rhs) = delete;
 
-	//DirectXData(DirectXData const& rhs) = delete;
+	DirectXData& operator=(DirectXData const& rhs) = delete;
 
-	//DirectXData& operator=(DirectXData const& rhs) = delete;
+	static DirectXData* GetInstance();
 
-	//static DirectXData* GetInstance();
+	static bool InitializeGraphics();
 
-	bool InitializeGraphics();
+	static void ShutDownGraphics();
 
-	void ShutDownGraphics();
+	static void StartDrawing();
 
-	void Draw(Mesh const& MeshToDraw, DrawMode const& Mode);
+	static void Draw(Mesh const& MeshToDraw, DrawMode const& Mode);
 
-	void ScreenToWorld(float screenX, float screenY, float* worldX, float* worldY);
+	static void FinishDrawing();
 
-	bool UpdateWorldView();
+	static void ScreenToWorld(float screenX, float screenY, float* worldX, float* worldY);
 
-	Texture* LoadTexture(wstring const& fileName);
+	static bool UpdateWorldView();
 
-	void SetTexture(Texture const* texture);
+	static Texture* LoadTexture(string const& fileName);
 
-	void SetScale(Vector<2> const& Scale);
+	static void SetTexture(Texture const* texture);
 
-	void SetPosition(Vector<2> const& Position);
+	static void SetScale(Vector<2> const& Scale);
+
+	static void SetPosition(Vector<2> const& Position);
 	//void SetPosition(Vector<3> const& Position);
+
+	static void SetWindow(HWND const& windowHandle) { WindowHandle = windowHandle; }
 
 private:
 
-	HWND WindowHandle;
+	static HWND WindowHandle;
 
 	// Device, used to create resources
-	ID3D11Device* Device;
+	static ID3D11Device* Device;
 	// Device context, an interface with rendering commands
-	ID3D11DeviceContext* DeviceContext;
+	static ID3D11DeviceContext* DeviceContext;
 	// Swap chain, hold the buffers for storing rendered data before presenting it to the output
-	IDXGISwapChain* SwapChain;
+	static IDXGISwapChain* SwapChain;
 	// Render target view
-	ID3D11RenderTargetView* RenderTargetView;
+	static ID3D11RenderTargetView* RenderTargetView;
 	// Vertex shader resource
-	ID3D11VertexShader* VertexShader;
+	static ID3D11VertexShader* VertexShader;
 	// Pixel shader resource for drawing without textures
-	ID3D11PixelShader* PixelShader;
+	static ID3D11PixelShader* PixelShader;
 	// Pixel shader resource for drawing with textures
-	ID3D11PixelShader* PixelTextureShader;
+	static ID3D11PixelShader* PixelTextureShader;
 	// Input layout, the definition of how data is given to the vertex shader
-	ID3D11InputLayout* InputLayout;
+	static ID3D11InputLayout* InputLayout;
 	// Constant buffer resource
-	ID3D11Buffer* PerObjectBuffer;
+	static ID3D11Buffer* PerObjectBuffer;
 	// Blend state, which controls how colors from multiple meshes are blended together
-	ID3D11BlendState* BlendState;
+	static ID3D11BlendState* BlendState;
 	// Sampler state, which controls how a texture is sampled
-	ID3D11SamplerState* SamplerState;
+	static ID3D11SamplerState* SamplerState;
 	// Vertex buffer resource for a single mesh
-	ID3D11Buffer* VertexBuffer;
+	static ID3D11Buffer* VertexBuffer;
 	// Texture resource for a single texture
-	ID3D11Texture2D* Texture;
+	static ID3D11Texture2D* Texture;
 	// Texture resource view for a single texture
-	ID3D11ShaderResourceView* TexResourceView;
+	static ID3D11ShaderResourceView* TexResourceView;
 
 	// Other variables
 
 	// The stored view matrix
-	DirectX::XMMATRIX ViewMatrix;
+	static DirectX::XMMATRIX ViewMatrix;
 	// The stored projection matrix
-	DirectX::XMMATRIX ProjectionMatrix;
+	static DirectX::XMMATRIX ProjectionMatrix;
 	// Current camera position
-	float CameraPosition[3];
+	static float CameraPosition[3];
 	// Data for the constant buffer
-	cbPerObject ConstantBuffer;
+	static cbPerObject ConstantBuffer;
 
 };

@@ -25,7 +25,7 @@ class Transform : public ComponentWithType<cTransform>
 {
 public:
 
-	void Update(double& dt) {}
+	void Update(double& dt) { dt; }
 
 	void Render() {}
 

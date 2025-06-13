@@ -105,7 +105,7 @@ class Jive
 {
 public:
 
-	Jive() : recipe({ { Step(0, 0) } }), mix({ new Ingredient<T>[Size] })
+	Jive() : recipe({ /*{ Step(0, 0) }*/ }), mix({ /*new Ingredient<T>[Size]*/ })
 	{
 
 	}
@@ -342,5 +342,7 @@ private:
 	vector<vector<Step>> recipe;
 
 	vector<Ingredient<T>*> mix;
+
+	//char testpadding[1000000];
 
 };

@@ -83,9 +83,9 @@ class NamedMultiField<>
 
 public:
 
-    void* GetValue(std::string const& Name) { return nullptr; }
+	void* GetValue(std::string const& Name) { Name; return nullptr; }
 
-    void* GetValue(int Index) { return nullptr; }
+	void* GetValue(int Index) { Index; return nullptr; }
 
 };
 

@@ -44,6 +44,6 @@ public:
 
 	virtual void Exit(){}
 
-	virtual void HandleMessage(Message* message) {}
+	virtual void HandleMessage(Message* message) { message; }
 
 };

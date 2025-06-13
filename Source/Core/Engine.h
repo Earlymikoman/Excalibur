@@ -22,17 +22,29 @@
 #include "ECS.h"
 #include "Object.h"
 
+#include "framework.h"
+#include "Resource.h"
+
 #include <vector>
+#include <string>
 
 using std::vector;
+using std::string;
 
-class Platform;
 class System;
 class Object;
 class Message;
+//class HWND;
+
+class Mesh;
+class Texture;
 
 class Engine
 {
+private:
+
+	Engine();
+
 public:
 
 	Engine(Engine const& rhs) = delete;
@@ -41,32 +53,35 @@ public:
 
 	~Engine();
 
-	int Init();
+	static int Init(HINSTANCE const& HInstance);
 
-	int Update(double& dt);
+	static int Update(double& dt);
 
-	void Render();
+	static void Render();
 
-	void Exit();
+	static void Exit();
 
-	void HandleMessage(Message* message);
+	static void HandleMessage(Message* message);
 
-	void Add(System* system);
+	static void Add(System* system);
 
 	static Engine* GetSingleton();
 
-	Object* GetSourceObject() { return source; }
+	static Object const& GetSourceObject() { return source; }
 
-	void SetPlatform(Platform* Platform) { platform = Platform; }
+	static void SetWindow(HWND const& WindowHandle);
+
+	//void SetPlatform(Platform* Platform) { platform = Platform; }
+
+	//static Mesh* LoadMesh(string const& Name);
+	static Texture* LoadTexture(string const& fileName);
+
+	static void Draw(Mesh const& MeshToDraw, DrawMode const& Mode);
 
 private:
 
-	Engine();
+	static Object source;
 
-	Platform* platform;
-
-	Object* source;
-
-	vector<System*> systems;
+	static vector<System*> systems;
 
 };

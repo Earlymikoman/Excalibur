@@ -41,6 +41,8 @@ Physics::Physics
 
 void Physics::Update(double& dt)
 {
+	dt;
+
 	cout << "Updated Physics" << endl;
 }
 

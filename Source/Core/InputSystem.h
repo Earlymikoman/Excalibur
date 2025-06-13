@@ -94,7 +94,7 @@ public:
 		std::vector<Message*> const* MessageQueue = new std::vector<Message*>())
 		: inputs(*Inputs)
 		, inputMappings(*InputMappings)
-		, messageQueue()
+		, messageQueue(*MessageQueue)
 	{
 	}
 
@@ -132,7 +132,7 @@ public:
 	{
 		this->AccessingQueue.lock();
 
-		auto queueSnapshot = messageQueue;
+		vector<Message*> queueSnapshot = messageQueue;
 
 		messageQueue.clear();
 
@@ -144,7 +144,7 @@ public:
 
 		for (int i = 0; i < size; ++i)
 		{
-			Engine::GetSingleton()->HandleMessage(queueSnapshot[i]);
+			::Engine::GetSingleton()->HandleMessage(queueSnapshot[i]);
 		}
 
 		for (int i = size - 1; i >= 0; --i)
@@ -178,7 +178,7 @@ public:
 			StreamReadToken(openStream);
 			std::string name = StreamReadToken(openStream);
 
-			AddInputMapping(keycode, FindInput(name));
+			AddInputMapping((char)keycode, FindInput(name));
 		}
 	}
 

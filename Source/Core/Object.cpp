@@ -41,10 +41,10 @@ Object* Object::CreateObject()
 //
 //}
 
-Object::Object(vector<Object*> Children, unordered_map<TypeEnum, ComponentData> Components)
-	: children(Children)
-	, components(Components)
-	, transform(nullptr)
-{
-
-}
+//Object::Object(Jive<Object, 5> Children, unordered_map<TypeEnum, ComponentData> Components)
+//	: children(Children)
+//	, components(Components)
+//	, transform(nullptr)
+//{
+//
+//}

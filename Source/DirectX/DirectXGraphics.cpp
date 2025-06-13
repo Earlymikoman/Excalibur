@@ -7,7 +7,7 @@
 #include "../Core/Mesh.h"
 #include "../Core/Texture.h"
 #include "../Core/Vector.h"
-#include "../Core/Enums.h"
+//#include "../Core/Enums.h"
 
 // *** Object definitions *************************************************************************
 
@@ -18,52 +18,62 @@
 
 // D3D objects that must be stored for the life of the program and then released
 
-//// Device, used to create resources
-//ID3D11Device* Device = nullptr;
-//// Device context, an interface with rendering commands
-//ID3D11DeviceContext* DeviceContext = nullptr;
-//// Swap chain, hold the buffers for storing rendered data before presenting it to the output
-//IDXGISwapChain* SwapChain = nullptr;
-//// Render target view
-//ID3D11RenderTargetView* RenderTargetView = nullptr;
-//// Vertex shader resource
-//ID3D11VertexShader* VertexShader = nullptr;
-//// Pixel shader resource for drawing without textures
-//ID3D11PixelShader* PixelShader = nullptr;
-//// Pixel shader resource for drawing with textures
-//ID3D11PixelShader* PixelTextureShader = nullptr;
-//// Input layout, the definition of how data is given to the vertex shader
-//ID3D11InputLayout* InputLayout = nullptr;
-//// Constant buffer resource
-//ID3D11Buffer* PerObjectBuffer = nullptr;
-//// Blend state, which controls how colors from multiple meshes are blended together
-//ID3D11BlendState* BlendState = nullptr;
-//// Sampler state, which controls how a texture is sampled
-//ID3D11SamplerState* SamplerState = nullptr;
-//// Vertex buffer resource for a single mesh
-//ID3D11Buffer* VertexBuffer = nullptr;
-//// Texture resource for a single texture
-//ID3D11Texture2D* Texture = nullptr;
-//// Texture resource view for a single texture
-//ID3D11ShaderResourceView* TexResourceView = nullptr;
-//
-//// Other variables
-//
-//// The stored view matrix
-//DirectX::XMMATRIX ViewMatrix = DirectX::XMMatrixIdentity();
-//// The stored projection matrix
-//DirectX::XMMATRIX ProjectionMatrix = DirectX::XMMatrixIdentity();
-//// Current camera position
-//float CameraPosition[3] = { 0.0f, 0.0f, -10.0f };
-//// Data for the constant buffer
-//cbPerObject ConstantBuffer;
-//// The number of vertices in our single mesh
-//const int VertexCount = 6;
-//// The vertex data for our single mesh
-//VertexData VertexList[VertexCount];
+#pragma region DirectXData Static Field Initialization
 
+HWND DirectXData::WindowHandle = 0;
+
+// Device, used to create resources
+ID3D11Device* DirectXData::Device = nullptr;
+// Device context, an interface with rendering commands
+ID3D11DeviceContext* DirectXData::DeviceContext = nullptr;
+// Swap chain, hold the buffers for storing rendered data before presenting it to the output
+IDXGISwapChain* DirectXData::SwapChain = nullptr;
+// Render target view
+ID3D11RenderTargetView* DirectXData::RenderTargetView = nullptr;
+// Vertex shader resource
+ID3D11VertexShader* DirectXData::VertexShader = nullptr;
+// Pixel shader resource for drawing without textures
+ID3D11PixelShader* DirectXData::PixelShader = nullptr;
+// Pixel shader resource for drawing with textures
+ID3D11PixelShader* DirectXData::PixelTextureShader = nullptr;
+// Input layout, the definition of how data is given to the vertex shader
+ID3D11InputLayout* DirectXData::InputLayout = nullptr;
+// Constant buffer resource
+ID3D11Buffer* DirectXData::PerObjectBuffer = nullptr;
+// Blend state, which controls how colors from multiple meshes are blended together
+ID3D11BlendState* DirectXData::BlendState = nullptr;
+// Sampler state, which controls how a texture is sampled
+ID3D11SamplerState* DirectXData::SamplerState = nullptr;
+// Vertex buffer resource for a single mesh
+ID3D11Buffer* DirectXData::VertexBuffer = nullptr;
+// Texture resource for a single texture
+ID3D11Texture2D* DirectXData::Texture = nullptr;
+// Texture resource view for a single texture
+ID3D11ShaderResourceView* DirectXData::TexResourceView = nullptr;
+
+// Other variables
+
+// The stored view matrix
+DirectX::XMMATRIX DirectXData::ViewMatrix = DirectX::XMMatrixIdentity();
+// The stored projection matrix
+DirectX::XMMATRIX DirectXData::ProjectionMatrix = DirectX::XMMatrixIdentity();
+// Current camera position
+float DirectXData::CameraPosition[] = { 0.0f, 0.0f, -10.f };
+// Data for the constant buffer
+cbPerObject DirectXData::ConstantBuffer;
+
+#pragma endregion
 
 // *** Function declarations **********************************************************************
+
+//DirectXData::DirectXData(HWND windowHandle)
+//{
+//	DirectXData::WindowHandle = windowHandle;
+//	ViewMatrix = DirectX::XMMatrixIdentity();
+//	ProjectionMatrix = DirectX::XMMatrixIdentity();
+//
+//	InitializeGraphics();
+//}
 
 //DirectXData* DirectXData::GetInstance()
 //{
@@ -467,8 +477,27 @@ void DirectXData::ShutDownGraphics()
     CoUninitialize();
 }
 
+void DirectXData::StartDrawing()
+{
+	// Clear the render target with the background color
+	/*float backgroundColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	DeviceContext->ClearRenderTargetView(RenderTargetView, backgroundColor);*/
+	// Set the input layout
+	DeviceContext->IASetInputLayout(InputLayout);
+	// Set the render target
+	DeviceContext->OMSetRenderTargets(1, &RenderTargetView, NULL);
+}
+
 void DirectXData::Draw(Mesh const& MeshToDraw, DrawMode const& Mode)
 {
+	// Clear the render target with the background color
+	//float backgroundColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	//DeviceContext->ClearRenderTargetView(RenderTargetView, backgroundColor);
+	//// Set the input layout
+	//DeviceContext->IASetInputLayout(InputLayout);
+	//// Set the render target
+	//DeviceContext->OMSetRenderTargets(1, &RenderTargetView, NULL);
+
 	HRESULT hr;
 
 	// Create a vertex buffer description struct and set the memory to zero
@@ -553,7 +582,12 @@ void DirectXData::Draw(Mesh const& MeshToDraw, DrawMode const& Mode)
     // *******************************************************************************************
     
     // Send the current render data to be displayed
-    SwapChain->Present(1, 0);
+    /*SwapChain->Present(1, 0);*/
+}
+
+void DirectXData::FinishDrawing()
+{
+	SwapChain->Present(1, 0);
 }
 
 void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, float* worldY)
@@ -583,7 +617,7 @@ void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, flo
     *worldY = transformedPos.y;
 }
 
-::Texture* DirectXData::LoadTexture(wstring const& fileName)
+::Texture* DirectXData::LoadTexture(string const& fileName)
 {
 	HRESULT hr;
 
@@ -593,7 +627,7 @@ void DirectXData::ScreenToWorld(float screenX, float screenY, float* worldX, flo
 	// Create the texture using the WIC texture loader
 	hr = DirectX::CreateWICTextureFromFile(
 		Device,             // The device resource variable
-		(const wchar_t*)fileName.c_str(),        // The path to the texture file
+		(const wchar_t*)wstring(fileName.begin(), fileName.end()).c_str(),        // The path to the texture file
 		&temp,              // The address of the temporary resource pointer 
 		&TexResourceView    // The address of the texture resource view resource variable
 	);
@@ -624,8 +658,8 @@ void DirectXData::SetScale(Vector<2> const& Scale)
 
 void DirectXData::SetPosition(Vector<2> const& Position)
 {
-	ConstantBuffer.Scale[0] = Position.X();
-	ConstantBuffer.Scale[1] = Position.Y();
+	ConstantBuffer.Position[0] = Position.X();
+	ConstantBuffer.Position[1] = Position.Y();
 }
 
 

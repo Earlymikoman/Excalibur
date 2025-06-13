@@ -18,7 +18,7 @@
 
 #include "Texture.h"
 
-Texture::Texture(wstring const& FileName, ID3D11Resource* const& Resource, ID3D11ShaderResourceView* const& ResourceView)
+Texture::Texture(string const& FileName, ID3D11Resource* const& Resource, ID3D11ShaderResourceView* const& ResourceView)
 	: fileName(FileName)
 	, resource(Resource)
 	, resourceView(ResourceView)

@@ -58,17 +58,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
+	hInstance;
+	hPrevInstance;
+	lpCmdLine;
+	nCmdShow;
+
 	AttachConsoleWindow();
-	WindowsPlatform::InitializeInstance(hInstance);
 	
 	Engine* mainEngine = Engine::GetSingleton();
-	mainEngine->SetPlatform(WindowsPlatform::GetInstance());
+	//mainEngine->SetPlatform(WindowsPlatform::GetInstance());
+
+	int running = mainEngine->Init(hInstance);
 
 	//Add Systems to the Engine here.
 	mainEngine->Add(ECS<Physics>::GetInstance());
 	//mainEngine->GetSourceObject()->AddComponent(Physics());
-
-	int running = mainEngine->Init();
 
 	auto previousTime = std::chrono::high_resolution_clock::now();
 
@@ -76,7 +80,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		#pragma omp section
 		{
-			MessagesManagement(hInstance, &running);
+			//MessagesManagement(hInstance, &running);
 		}
 
 		#pragma omp section

@@ -21,6 +21,7 @@
 #include "Component/Transform.h"
 #include "ECS.h"
 #include "Enums.h"
+#include "Jive.h"
 
 #include <vector> 
 #include <unordered_map> 
@@ -52,7 +53,7 @@ private:
 class Object final
 {
 
-private:
+public:
 
 	Object() = default;
 
@@ -97,7 +98,7 @@ private:
 
 	Transform* transform;
 
-	vector<Object*> children;
+	Jive<Object, 5> children;
 	unordered_map<TypeEnum, ComponentData> components;
 
 };

@@ -23,7 +23,9 @@
 //class Mesh;
 
 template<>
-static Mesh* ResourceLibrary<Mesh>::LoadResource(string const& Name)
+static Texture* ResourceLibrary<Texture>::LoadResource(string const& Name)
 {
+	Engine::LoadTexture(Name);
+
 	return nullptr;
 }

@@ -25,10 +25,10 @@
 // Include Files:
 //------------------------------------------------------------------------------
 
-#include "System.h"
+//#include "System.h"
 
-#include "framework.h"
-#include "Resource.h"
+//#include "framework.h"
+//#include "Resource.h"
 
 #include <string>
 
@@ -57,27 +57,27 @@ struct VertexData;
 // Public Structures:
 //------------------------------------------------------------------------------
 
-class Platform
-{
-protected:
-
-	Platform() = default;
-
-    Platform(Platform const& rhs) = delete;
-
-    Platform& operator=(Platform const& rhs) = delete;
-
-public:
-
-    virtual void Update(double& dt) = 0;
-
-	/*virtual Mesh* LoadMesh(string const& Name, vector<VertexData> const& Vertices) = 0;
-
-	virtual Texture* LoadTexture(string const& Name) = 0;*/
-
-private:
-
-};
+//class Platform
+//{
+//protected:
+//
+//	Platform() = default;
+//
+//    Platform(Platform const& rhs) = delete;
+//
+//    Platform& operator=(Platform const& rhs) = delete;
+//
+//public:
+//
+//    virtual void Update(double& dt) = 0;
+//
+//	/*virtual Mesh* LoadMesh(string const& Name, vector<VertexData> const& Vertices) = 0;
+//
+//	virtual Texture* LoadTexture(string const& Name) = 0;*/
+//
+//private:
+//
+//};
 
 //------------------------------------------------------------------------------
 // Public Variables:
